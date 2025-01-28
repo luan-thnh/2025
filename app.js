@@ -7,18 +7,26 @@ let backgroundMusicStarted = false;
 // Create audio elements
 function createAudioElements() {
   // Firework sound
-  // fireworkAudio = new Audio('./firework.mp3');
-  // fireworkAudio.volume = 0.5;
-  // // Background music
-  // backgroundAudio = new Audio('./2025.mp3');
-  // backgroundAudio.volume = 0.5;
-  // backgroundAudio.loop = true; // Optional: loop the music
+  fireworkAudio = new Audio('./firework.mp3');
+
+  // Background music
+  backgroundAudio = new Audio('./2025.mp3');
+  backgroundAudio.loop = true; // Loop the music
 }
 
-init();
-resize();
-requestAnimationFrame(render);
-addEventListener('resize', resize);
+function init() {
+  canvas = document.createElement('canvas');
+  document.body.append(canvas);
+  ctx = canvas.getContext('2d');
+  resize();
+  window.addEventListener('resize', resize);
+}
+
+function resize() {
+  w = canvas.width = innerWidth;
+  h = canvas.height = innerHeight;
+  particles = innerWidth < 400 ? 55 : 99;
+}
 
 function makeChar(c) {
   let tmp = document.createElement('canvas');
@@ -38,24 +46,6 @@ function makeChar(c) {
     if (char2.data[offset]) char2particles.push([x - size / 2, y - size / 2]);
   }
   return char2particles;
-}
-
-function init() {
-  canvas = document.createElement('canvas');
-  document.body.append(canvas);
-  document.body.style.margin = 0;
-  document.body.style.overflow = 'hidden';
-  document.body.style.background = 'black';
-  ctx = canvas.getContext('2d');
-
-  // Initialize audio
-  createAudioElements();
-}
-
-function resize() {
-  w = canvas.width = innerWidth;
-  h = canvas.height = innerHeight;
-  particles = innerWidth < 400 ? 55 : 99;
 }
 
 function makeChars(t) {
@@ -96,10 +86,8 @@ function firework(t, i, pts) {
   if (t < 0.33) {
     rocket(dx, dy, id, t * 3);
   } else {
-    // Play firework audio on explosion
     if (t >= 0.33 && t < 0.34) {
       try {
-        // Reset audio and play
         fireworkAudio.currentTime = 0;
         fireworkAudio.play();
       } catch (error) {
@@ -134,10 +122,10 @@ function circle(x, y, r) {
   ctx.fill();
 }
 
-// Optional: Add a way to stop music if needed
-function stopBackgroundMusic() {
-  if (backgroundAudio) {
-    backgroundAudio.pause();
-    backgroundAudio.currentTime = 0;
-  }
-}
+// Start button logic
+document.getElementById('startButton').addEventListener('click', () => {
+  document.getElementById('startButton').remove(); // Remove start button
+  createAudioElements();
+  init();
+  requestAnimationFrame(render);
+});
