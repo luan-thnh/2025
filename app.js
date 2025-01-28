@@ -7,13 +7,12 @@ let backgroundMusicStarted = false;
 // Create audio elements
 function createAudioElements() {
   // Firework sound
-  fireworkAudio = new Audio('./firework.mp3');
-  fireworkAudio.volume = 0.5;
-
-  // Background music
-  backgroundAudio = new Audio('./2025.mp3');
-  backgroundAudio.volume = 0.5;
-  backgroundAudio.loop = true; // Optional: loop the music
+  // fireworkAudio = new Audio('./firework.mp3');
+  // fireworkAudio.volume = 0.5;
+  // // Background music
+  // backgroundAudio = new Audio('./2025.mp3');
+  // backgroundAudio.volume = 0.5;
+  // backgroundAudio.loop = true; // Optional: loop the music
 }
 
 init();
